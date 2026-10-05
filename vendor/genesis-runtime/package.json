@@ -1,0 +1,32 @@
+{
+  "name": "genesis-runtime",
+  "version": "0.4.0",
+  "description": "Genesis: a minimal runtime for hosting plugins, tools, and orchestration components. Infrastructure only — no built-in agents, conversations, memory, workflows, or model providers.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "server.js",
+  "exports": {
+    "./plugin-loader": "./lib/plugin-loader.js",
+    "./plugin-system": "./lib/plugin-system.js",
+    "./profile-manager": "./lib/profile-manager.js",
+    "./admin-security": "./lib/admin-security.js",
+    "./http-hooks": "./lib/http-hooks.js",
+    "./compat/general-utils": "./lib/observer-general-utils.js",
+    "./compat/core-state": "./lib/observer-core-state.js",
+    "./compat/trust": "./observer-compat/server/trust.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test lib/*.test.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "imapflow": "^1.2.12",
+    "keytar": "^7.9.0",
+    "mailparser": "^3.9.3",
+    "nodemailer": "^10.0.12"
+  }
+}
