@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#090b13" />
+  <title>Speck</title>
+  <script type="importmap">
+    { "imports": { "three": "/vendor/three/build/three.module.js", "three/addons/": "/vendor/three/examples/jsm/" } }
+  </script>
+  <link rel="stylesheet" href="/speck.css" />
+</head>
+<body>
+  <canvas id="ambientCanvas" aria-hidden="true"></canvas>
+  <div class="shell">
+    <header class="topbar">
+      <button class="brand" data-view="world" aria-label="Return to workspace">
+        <span class="brand-mark"><i></i><i></i><i></i></span>
+        <span><strong>Speck</strong><small>living workspace</small></span>
+      </button>
+      <div class="world-summary" aria-live="polite">
+        <span id="connectionDot" class="connection-dot"></span>
+        <span id="worldSummary">Waking the workspace…</span>
+      </div>
+      <div id="voiceBubble" class="voice-bubble" role="status" aria-live="polite" hidden>
+        <span id="voiceBubbleState" class="eyebrow">Voice</span>
+        <strong id="voiceBubbleText">Say “Speck” to begin.</strong>
+      </div>
+      <div class="top-actions">
+        <button id="voiceButton" class="voice-button" type="button" aria-pressed="false" title="Enable voice">
+          <span class="voice-icon">●</span><span id="voiceButtonLabel">Voice off</span>
+        </button>
+        <button id="refreshButton" class="icon-button" title="Refresh workspace" aria-label="Refresh workspace">↻</button>
+        <button id="newTaskButton" class="primary-button">New intention</button>
+      </div>
+    </header>
+
+    <nav class="rail" aria-label="Workspace views">
+      <button class="rail-button active" data-view="world"><span>✦</span><small>World</small></button>
+      <button class="rail-button" data-view="tasks"><span>◎</span><small>Queue</small><b id="taskBadge">0</b></button>
+      <button class="rail-button" data-view="threads"><span>≋</span><small>Threads</small></button>
+      <button class="rail-button" data-view="files"><span>◇</span><small>Files</small><b id="fileBadge">0</b></button>
+      <button class="rail-button" data-view="rhythm"><span>⌁</span><small>Rhythm</small><b id="cronBadge">0</b></button>
+      <div id="pluginRail" class="plugin-rail"></div>
+      <button class="rail-button" data-view="plugins"><span>⬡</span><small>Plugins</small><b id="pluginBadge">0</b></button>
+      <button class="rail-button" data-view="system"><span>⚙</span><small>System</small></button>
+    </nav>
+
+    <main id="worldView" class="world-view">
+      <section class="world-stage" aria-label="Living workspace map">
+        <div class="world-mode-switch" role="group" aria-label="World visualization">
+          <button type="button" data-world-mode="world" aria-pressed="true">World</button>
+          <button type="button" data-world-mode="memory" aria-pressed="false">Memory map</button>
+        </div>
+        <canvas id="worldCanvas" aria-label="Interactive three-dimensional workspace"></canvas>
+        <div id="entityField" class="entity-field" hidden></div>
+            <canvas id="memoryCanvas" class="memory-canvas" aria-label="Interactive three-dimensional memory constellation" hidden></canvas>
+        <div id="memoryMapEmpty" class="memory-map-empty" hidden>No memories yet. Memories will appear here as Speck learns.</div>
+        <button id="speckSprite" class="speck-sprite" aria-label="Speck workspace status">
+          <span class="core-action-mark">+</span>
+          <span id="spriteState" class="sprite-state">observing</span>
+        </button>
+        <div id="worldSelection" class="world-selection" aria-live="polite">Drag to orbit · right-drag to travel in time · scroll to zoom · select an object for its result</div>
+        <div id="timelineStatus" class="timeline-status" aria-live="polite">Timeline · 0 of 50 items</div>
+        <div id="worldLegend" class="world-legend">
+          <span><i class="legend-dot task"></i> tasks</span>
+          <span><i class="legend-dot action"></i> actions</span>
+          <span><i class="legend-dot document"></i> documents</span>
+          <span><i class="legend-dot file"></i> files</span>
+        </div>
+      </section>
+      <aside class="pulse-panel">
+        <div class="section-heading"><span>Current pulse</span><time id="clock"></time></div>
+        <div id="pulseList" class="pulse-list"></div>
+      </aside>
+    </main>
+
+    <section id="panelView" class="panel-view" hidden>
+      <div class="panel-heading">
+        <div><span id="panelEyebrow" class="eyebrow">Workspace</span><h1 id="panelTitle">Tasks</h1><p id="panelDescription"></p></div>
+        <button id="closePanelButton" class="icon-button" aria-label="Close panel">×</button>
+      </div>
+      <div id="panelContent" class="panel-content"></div>
+    </section>
+  </div>
+
+  <section class="interaction-dock" aria-label="Talk to Speck">
+    <div id="responseDock" class="response-dock" aria-live="polite" hidden>
+      <span class="eyebrow">Speck</span>
+      <p id="responseText"></p>
+    </div>
+    <form id="quickComposer" class="quick-composer">
+      <textarea id="quickPrompt" rows="1" maxlength="4000" aria-label="Ask Speck" placeholder="Ask Speck anything…" required></textarea>
+      <button id="composerVoiceButton" class="composer-voice" type="button" aria-pressed="false" title="Enable the Speck wake word" aria-label="Enable the Speck wake word"><span></span></button>
+      <button id="quickSendButton" type="submit" class="primary-button">Send</button>
+    </form>
+    <small id="composerHint">Enter to send · Shift+Enter for a new line · enable voice, then say “Speck”</small>
+  </section>
+
+  <dialog id="taskDialog" class="glass-dialog">
+    <form id="taskForm" method="dialog">
+      <div class="dialog-sigil">✦</div>
+      <span class="eyebrow">New intention</span>
+      <h2>What should Speck hold onto?</h2>
+      <textarea id="taskObjective" rows="5" maxlength="4000" placeholder="Describe the outcome, question, or thread of work…" required></textarea>
+      <div class="dialog-actions">
+        <button type="button" id="cancelTaskButton" class="ghost-button">Cancel</button>
+        <button type="submit" class="primary-button">Place in workspace</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/speck.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+ "allowlist": {
+  "social-media-manager": {
+   "hashes": [
+    "ef15547f64619e87b188488606b47bf52da8456779c848eab049b1b90c0dcec1"
+   ]
+  },
+  "airchat": {
+   "hashes": [
+    "8d8bd26ae25d00c640a85522460cc57d18d3fc85fb304882ffff8e7a4d43cb7d"
+   ]
+  },
+  "information-agent": {
+   "hashes": [
+    "7906e8115e27f6bfb2c3151f1710e7c1d429abed5bdb71b9ffc21b855e728b87"
+   ]
+  }
+ },
+ "mode": "allowlist"
+}

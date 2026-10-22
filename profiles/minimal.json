@@ -1,0 +1,17 @@
+{
+  "id": "minimal",
+  "name": "Speck Minimal",
+  "description": "Speck with no assumed plugins. Add plugins locally when they are needed.",
+  "enabledPlugins": [],
+  "disabledPlugins": [],
+  "defaultProvider": "",
+  "systemPromptAddons": [],
+  "ui": {
+    "title": "Speck",
+    "hiddenTabs": [],
+    "defaultTab": "world"
+  },
+  "runtime": {
+    "allowGeneralAssistant": true
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "speck",
+  "version": "0.13.0",
+  "private": true,
+  "description": "Small Persistent Emergent Cognitive Kernel for the Genesis runtime",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "bin": {
+    "speck": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/server.js",
+    "cli": "node dist/cli.js",
+    "benchmark:suite": "node dist/cli.js benchmark suite",
+    "test": "npm run build && node --test dist/tests/*.test.js"
+  },
+  "dependencies": {
+    "@fontsource/manrope": "^5.2.8",
+    "better-sqlite3": "^11.10.0",
+    "express": "^4.21.2",
+    "genesis-runtime": "file:vendor/genesis-runtime",
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  }
+}

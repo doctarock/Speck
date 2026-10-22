@@ -1,0 +1,4 @@
+# Plugin modules are trusted by the sha256 of their bytes
+# (plugins/.runtime/plugin-trust.json). Checked out with CRLF they hash
+# differently and Genesis refuses them, so they keep LF on every checkout.
+plugins/** text eol=lf

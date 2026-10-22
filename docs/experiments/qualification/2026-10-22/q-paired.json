@@ -1,0 +1,136 @@
+[
+  {
+    "model": "nli:MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli",
+    "processorId": "nli-checker",
+    "qualification": {
+      "capability": "paired-entailment",
+      "corpus": "atomic-entailment/5+opposites:verb-or-wrapper/1",
+      "qualified": true,
+      "measuredAt": "2026-10-21T14:04:53.006Z",
+      "repetitions": 1,
+      "overall": {
+        "correct": 332,
+        "total": 336
+      },
+      "byLabel": {
+        "entailment": {
+          "correct": 108,
+          "total": 110
+        },
+        "contradiction": {
+          "correct": 108,
+          "total": 110
+        },
+        "neutral": {
+          "correct": 116,
+          "total": 116
+        }
+      },
+      "confusion": {
+        "entailment": {
+          "entailment": 108,
+          "contradiction": 1,
+          "neutral": 1,
+          "invalid": 10
+        },
+        "contradiction": {
+          "entailment": 1,
+          "contradiction": 108,
+          "neutral": 1,
+          "invalid": 10
+        },
+        "neutral": {
+          "entailment": 0,
+          "contradiction": 0,
+          "neutral": 116,
+          "invalid": 4
+        }
+      },
+      "negationConsistency": {
+        "correct": 168,
+        "total": 168
+      },
+      "abstained": {
+        "correct": 12,
+        "total": 180
+      },
+      "lowerBounds": {
+        "overall": 0.9697944582604969,
+        "contradiction": 0.9361185758998575,
+        "negationConsistency": 0.9776445284494558
+      },
+      "meanLatencyMs": 24,
+      "thresholds": {
+        "minimumSamples": 60,
+        "overall": 0.85,
+        "contradiction": 0.9,
+        "negationConsistency": 0.9
+      }
+    },
+    "task": {
+      "capability": "paired-entailment",
+      "corpus": "atomic-entailment/5+opposites:verb-or-wrapper/1",
+      "qualified": false,
+      "measuredAt": "2026-10-21T14:04:53.007Z",
+      "repetitions": 1,
+      "overall": {
+        "correct": 16,
+        "total": 16
+      },
+      "byLabel": {
+        "entailment": {
+          "correct": 7,
+          "total": 7
+        },
+        "contradiction": {
+          "correct": 7,
+          "total": 7
+        },
+        "neutral": {
+          "correct": 2,
+          "total": 2
+        }
+      },
+      "confusion": {
+        "entailment": {
+          "entailment": 7,
+          "contradiction": 0,
+          "neutral": 0,
+          "invalid": 0
+        },
+        "contradiction": {
+          "entailment": 0,
+          "contradiction": 7,
+          "neutral": 0,
+          "invalid": 0
+        },
+        "neutral": {
+          "entailment": 0,
+          "contradiction": 0,
+          "neutral": 2,
+          "invalid": 2
+        }
+      },
+      "negationConsistency": {
+        "correct": 8,
+        "total": 8
+      },
+      "abstained": {
+        "correct": 1,
+        "total": 9
+      },
+      "lowerBounds": {
+        "overall": 0.8063865817272801,
+        "contradiction": 0.6456611570247934,
+        "negationConsistency": 0.6755843804891231
+      },
+      "meanLatencyMs": 24,
+      "thresholds": {
+        "minimumSamples": 60,
+        "overall": 0.85,
+        "contradiction": 0.9,
+        "negationConsistency": 0.9
+      }
+    }
+  }
+]

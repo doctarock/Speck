@@ -1,0 +1,17 @@
+{
+  "id": "default",
+  "name": "Speck",
+  "description": "Speck with Genesis plugin and user-interface compatibility. Only locally installed plugins are available.",
+  "enabledPlugins": [],
+  "disabledPlugins": [],
+  "defaultProvider": "",
+  "systemPromptAddons": [],
+  "ui": {
+    "title": "Speck",
+    "hiddenTabs": [],
+    "defaultTab": "world"
+  },
+  "runtime": {
+    "allowGeneralAssistant": true
+  }
+}

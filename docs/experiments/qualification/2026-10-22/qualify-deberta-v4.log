@@ -1,0 +1,99 @@
+[qualify] nli-checker ok  The bakery was open at 8 AM. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The front door was left unlocked when Maria left. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The bridge was repaired after a crash. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The patient still had a fever when she was discharged. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Tom completed the marathon. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The shipment arrived before Tuesday. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Most of the hallway lights are broken. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The library stayed open late on Friday. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Sam's phone was running out of battery when he left home. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The committee approved the budget. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  It was dry for the three days before the river rose. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Priya visited Tokyo last year. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Ana baked the cake. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The update failed to install. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The museum's gift shop sells postcards. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The car still would not start after the repair. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The meeting took place at 3 PM. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Jack paid with a credit card. → neutral (want neutral); opposite → entailment
+[qualify] nli-checker ok  The kitchen window was closed before the storm. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  Nina did not have coffee this morning. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The concert took place. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  All of the office's printers were out of order on Monday. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  Leo has lived in Lisbon since May. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The train departed late. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The shop was open on Sunday. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  No virus was detected in the sample. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  Omar left one exam question unanswered. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  There was nothing left in the bottle when Grace arrived. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  Ruth does not have a key to the safe. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The dog was quiet after midnight. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  Hannah's brother is older than Hannah. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The package was not delivered. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The lake was covered in ice in January. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  Rita was absent from the wedding. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The loan was approved. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The museum was open to visitors in April. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The plane crashed. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  It was below freezing that afternoon. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Kenji was absent from work on a day earlier this year. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The box office was still selling tickets for the show the next day. → contradiction (want contradiction); opposite → neutral
+[qualify] nli-checker ok  The bridge was closed to traffic on Saturday. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Lucy's colleague co-wrote the report. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The fire alarm sounded during the drill. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The parcel weighed more than 5 kilograms. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Ahmed's bicycle is red. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The school won a regional award last year. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  Mia's sister lives abroad. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The restaurant's chef is from Italy. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The company's profits rose in March. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The apple trees were planted by the previous owner. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  Victor's car was being repaired this morning. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  A storm caused the power cut. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  Sara's train was delayed. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  A burglar broke the window. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  It rained upstream overnight. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The laptop's battery ran out. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The team's captain was injured during the final. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The fridge was broken. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  Elena deleted her files. → neutral (want neutral); opposite → entailment
+[qualify] nli-checker ok  The singer had won an award that year. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  There was no bread left in the shop that afternoon. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker BAD Ivan worked at the hospital in 2020. → neutral (want entailment); opposite → contradiction
+[qualify] nli-checker ok  Mark cannot open the door. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  No plane took off from the airport on Tuesday. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker BAD Zoe is taller than Ben. → contradiction (want entailment); opposite → entailment
+[qualify] nli-checker ok  The plant was not watered for a month. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  Most of those who voted were in favour. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker BAD Chen did not eat meat in 2022. → neutral (want entailment); opposite → neutral
+[qualify] nli-checker ok  The reply arrived after the email was sent. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  Every student in the class passed the exam. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  Cars drove on the road on Saturday. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Fatima drove herself to work yesterday. → contradiction (want contradiction); opposite → neutral
+[qualify] nli-checker ok  The experiment gave a different result on the second run. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The hotel had empty rooms in mid-August. → contradiction (want contradiction); opposite → neutral
+[qualify] nli-checker ok  Anna's father is not a teacher. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Some visitors entered without having their bags checked. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The well was full of water in July. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The home team won the match. → contradiction (want contradiction); opposite → neutral
+[qualify] nli-checker ok  Raj went to the cinema on Sunday afternoon. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Some files failed to copy during the backup. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The new building is closer to the station. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  Tim's manager asked him to stay late. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  A software update was released on Monday morning. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  Someone let the air out of the tyre. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  Fireworks were set off nearby on Saturday evening. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  Lena's old phone was broken. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The cost of flour went up in spring. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  Someone switched off the camera at 11 PM. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The nurse caused the patient's fall. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  There was a football match in the city on Wednesday. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The restart left the server unhealthy or stopped. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  The server went offline as a result of the restart command. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Alice issued a restart command shortly before 2:14 AM. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  A storage device became unavailable around 2:14 AM. → entailment (want entailment); opposite → contradiction
+[qualify] nli-checker ok  The server's virtual disk was available at 2:14:03. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  A storage device became unavailable around 2:14 AM. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  The server went offline at 2:14 AM. → neutral (want neutral); opposite → neutral
+[qualify] nli-checker ok  Carla changed the hypervisor configuration. → contradiction (want contradiction); opposite → entailment
+[qualify] nli-checker ok  Ben replaced a storage controller that evening. → entailment (want entailment); opposite → contradiction
