@@ -125,6 +125,9 @@ Supporting parts (metacognition: competence, calibration, qualification; belief 
 | 2026-10-22 | `hypotheses` (S1: reply clauses checked against the user's clauses by qualified paired-entailment; revise on contradiction) | no losses; fires: 2 then 1 per shared run, all false (fragments; a statement the user had since replaced) | hypotheses-set/1 (dev) 3/3 → 3/3; **hypotheses-set/2 (held out) 7/8 → 7/8, 0 domain turns touched** | **not admitted**: no real catch in about 250 turns; S2 (belief revision, to supersede replaced statements) not run as there is nothing to gain. In `failed work/components-2026-10-21` |
 | 2026-10-22 | `web` (browser_search + browser_read_page, LAN Playwright on .233) | no losses; with the cache keyed on whole tool definitions: searches on rule-example and plain turns (10/45 varied touched) | web-set/1: RFC title gained; web-set/2: RFC title gained, but searches for general knowledge (sea salt, Berlin Wall, egg, lunch, sleep) | **not admitted**: the router searches where no search is needed even with clearer descriptions, and the search backend returns unrelated pages. Kept as a candidate |
 | 2026-10-22 | `pages` (browser_read_page only) | varied 0/45, smoke 0/60 touched, 0 losses | web-set/1 4→6/6 (example.com read, RFC 2549 title); web-set/2 4→5/5 (RFC 1149 title); it built correct addresses for named sites (rust-lang.org, the Eiffel Tower article) | **admitted** (a feature: switch "Read web pages you name", on) |
+| 2026-10-22 | `mind` (memory in one persistent worker: activation-based recall and associations, context-engine selection, belief revision by paired-entailment, background consolidation), replacing `memory` | 0/105 shared turns touched, no losses | mind-set/1: 2 real losses (wrong facts recalled), belief revision retired the corrected facts (Mazda, bakery, Melbourne) | not admitted: recall misranked |
+| 2026-10-22 | `mind` ablations (one piece off at a time) | — | context off **or** activation off: no real losses; beliefs off or consolidation off: the losses remain | finding: activation and context together recalled stale facts. Facts admitted to working memory in an earlier, unrelated conversation anchored spreading activation |
+| 2026-10-22 | `mind`, working memory released when a conversation begins | 0/105 touched, no losses | **mind-set/2 (held out, long-horizon, written before the fix ran): 7/7 = 7/7 by hand** (two scorer misses on "carpentry" and "sailboats" in both arms); dev sets: every changed probe correct in both arms by hand | **admitted in place of `memory`** (same switch). Answers equal the shared-memory component; outdated facts no longer reach the model; about 0.5 more model calls per turn |
 
 ### `memory` gate details (2026-10-21)
 
@@ -247,3 +250,15 @@ A blind run at full size, 3 per family on a fresh seed, needs the user's approva
 - **Workspace timestamps.** Workspace files are written fresh for every run, and `list_files` reports their modification time. So listings, and the Tool Caller's next prompt, differed between runs. Workspace files now get a fixed time (arms/6.4). Run-to-run identity on the tools gate: 0 of 232 turns differ.
 - **Tool definitions in the call cache key.** The call cache keyed tool-routing calls on tool names alone, so a changed tool description replayed the old decision. It now keys the whole tool definitions (arms/6.6). The earlier files gates were not affected: their description change came with a routing-model change, which changes the key.
 - **Web responses replayed.** Responses from the Playwright service are recorded and replayed by exact request (web-calls/1), so a rerun sees the same pages.
+
+### The mind (2026-10-22)
+
+Memory now runs on Speck's own machinery. Facts live in one persistent runtime worker, "What Speck knows about the person it talks with", tagged `speck:mind`.
+
+- **Recall** is by the ACA activation graph: base level, spreading from working memory, and semantic scoring. Each recall reinforces what it found, and facts told together or closely related are associated.
+- **Selection:** the context engine's working-memory competition and builder choose what is shown, within a budget.
+- **Belief revision:** a new fact that contradicts an older one, by the qualified paired judgment with Speck-formed opposites, retires the older one.
+- **Consolidation:** background cognition runs on the mind when a conversation begins.
+- **Working memory is per conversation.** It is released when a new conversation begins (`releaseWorkingMemory`, a new runtime operation).
+
+The ablations are kept as candidates (`mind-noctx`, `mind-noact`, `mind-nobel`, `mind-nocons`). On these sets the mind answers as the shared-memory component did. Its distinct effect is that corrected facts are retired rather than shown beside their replacements. Gains that depend on activation or consolidation over much longer use, months of conversations, are not measured by these sets.

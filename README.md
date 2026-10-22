@@ -41,7 +41,7 @@ A component goes on the default path only after a **no-harm gate**:
 | Component | What it does | Switch | Cost per message |
 |---|---|---|---|
 | Rule learning | Reads labelled examples written as `item → label`, derives the rules they allow, and gives the model Speck's derivation. Replaces a reply that mislabels the asked item. | none (always on) | a small reader call, only on messages with a mapping symbol |
-| Memory across conversations | Keeps facts you state about yourself, respecting "don't keep this" and "only for this chat", and recalls them in later conversations. | on | about 0.1–0.4 s |
+| Memory across conversations (the mind) | Keeps facts you state about yourself, respecting "don't keep this" and "only for this chat", in one persistent mind. Recall runs on Speck's activation machinery (ACT-R base level, spreading activation, reinforcement and associations), the context engine chooses what is shown, belief revision retires a fact you have corrected, and background consolidation runs between conversations. | on | about 0.2–0.6 s |
 | Read workspace files | Lists and reads files in Speck's confined workspace and inbox when a message needs them. | on | about 5–8 s to decide |
 | Read web pages you name | Opens a web address you give, or one it can build from a named site, through a Playwright service. | on | about 5–8 s to decide, plus the page load |
 
@@ -65,9 +65,9 @@ All figures below are measured with qwen3:4b as the answering model.
 
 ### Contradiction checking without a language model
 
-The checker (`paired-entailment`) asks a small NLI cross-encoder about a proposition and about its opposite, and commits only when the two answers agree. The opposite is formed by Speck from a dependency parse, with no LLM involved.
+The checker (`paired-entailment`) asks a small NLI cross-encoder about a proposition and about its opposite, and commits only when the two answers agree. The opposite is formed by Speck from a dependency parse, with no LLM involved. The mind uses it for belief revision.
 
-With DeBERTa-v3-large it qualifies on 180 contrastive pairs: contradiction 108/110 (95% lower bound 0.936), overall 332/336. See `docs/experiments/qualification/README.md`. No admitted component uses it yet.
+With DeBERTa-v3-large it qualifies on 180 contrastive pairs: contradiction 108/110 (95% lower bound 0.936), overall 332/336. See `docs/experiments/qualification/README.md`.
 
 ## Requirements
 
@@ -77,7 +77,7 @@ With DeBERTa-v3-large it qualifies on 180 contrastive pairs: contradiction 108/1
 - **An embedding service** for memory (nomic-embed-text-v1.5 served by llama.cpp or Ollama). Without it, memory falls back to a degraded hash encoder.
 - **Optional:**
   - a **Playwright service** for web pages; set its address under System → Web;
-  - the **NLI sidecar** (`sidecars/nli`) and the **parse sidecar** (`sidecars/parse`, spaCy `en_core_web_sm`), used by the qualification probe and by candidates.
+  - the **NLI sidecar** (`sidecars/nli`) and the **parse sidecar** (`sidecars/parse`, spaCy `en_core_web_sm`). Belief revision in the mind uses both, and the qualification probe needs them. Without them the mind still recalls; corrected facts just stay beside their replacements.
 
 ## Running
 
@@ -97,12 +97,14 @@ Scheduled messages are answered on the default path in their own sessions.
 
 ## Status
 
-The default path is stable and gated. More of Speck's machinery returns one component at a time, in the order and under the gate described in `docs/REINTEGRATION.md`:
+The default path is stable and gated. Speck's memory machinery runs on it inside the mind:
 
 - memory activation;
 - context assembly;
 - belief revision;
 - background consolidation.
+
+Further components return under the gate described in `docs/REINTEGRATION.md`.
 
 ## License
 

@@ -5,20 +5,24 @@
 // order components return in and each gate result.
 
 import type { Component } from "../component.js";
-import { memory } from "./memory.js";
 import { files } from "./files.js";
 import { ledger } from "./ledger.js";
+import { makeMind, mind, mindAblations } from "./mind.js";
 import { pages, web } from "./web.js";
 import { ruleLearning } from "./rule-learning.js";
 
 export const ADMITTED: ReadonlyArray<{ component: Component; admittedBy: string }> = [
   { component: ruleLearning, admittedBy: "docs/remediation/reader-2026-10-20/DEFAULT-PATH-RESULTS.md (2026-10-20)" },
-  { component: memory, admittedBy: "docs/REINTEGRATION.md, gate results 2026-10-21 (memory-set/1 and held-out memory-set/2)" },
+  // Memory is the mind (2026-10-22): the same fact reading as the shared-memory
+  // component admitted on 2026-10-21, kept in one persistent worker so the
+  // runtime's activation, context assembly, belief revision and consolidation
+  // apply. It keeps the id "memory" (switch and path names carry over).
+  { component: makeMind("memory", { activation: true, context: true, beliefs: true, consolidation: true }), admittedBy: "docs/REINTEGRATION.md, gate results 2026-10-22 (mind-set/1, held-out mind-set/2, memory-set/1-2), replacing the shared-memory component" },
   { component: files, admittedBy: "docs/REINTEGRATION.md, gate results 2026-10-21 (tools-set/1 and held-out tools-set/2)" },
   { component: pages, admittedBy: "docs/REINTEGRATION.md, gate results 2026-10-22 (web-set/1 and web-set/2)" }
 ];
 
-export const CANDIDATES: Readonly<Record<string, Component>> = { ledger, web };
+export const CANDIDATES: Readonly<Record<string, Component>> = { ledger, web, mind, ...mindAblations };
 
 // The admitted components on the path: every one without a switch, and each
 // switchable one that is on (the saved setting, else its default).

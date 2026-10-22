@@ -61,6 +61,29 @@ export class WorkspaceService extends RuntimeService {
     return updated;
   }
 
+  // Empties a worker's working memory: a new episode (a new conversation
+  // with the mind, 2026-10-22) starts from no anchors, so recall does not
+  // spread from what an earlier, unrelated one held. Returns the released ids.
+  async releaseWorkingMemory(workerId: WorkerId, actor: ActorInput = {}): Promise<MentalObjectId[]> {
+    const current = this.workers.require(workerId);
+    if (!current.workingMemory.length) return [];
+    const now = new Date().toISOString();
+    const released = [...current.workingMemory];
+    const updated: Worker = { ...current, workingMemory: [], updatedAt: now, revision: current.revision + 1 };
+    const event = this.makeEvent(workerId, "working-memory.released", { releasedIds: released }, actor, now);
+    const persistedEvent = this.database.transaction(() => {
+      for (const id of released) {
+        const object = this.mentalObjects.get(id);
+        if (!object) continue;
+        this.mentalObjects.update({ ...object, memoryRoles: object.memoryRoles.filter((role) => role !== "working"), workspace: { ...object.workspace, inWorkingMemory: false } });
+      }
+      this.workers.update(updated, current.revision);
+      return this.eventBus.persist(event);
+    });
+    await this.eventBus.dispatch(persistedEvent);
+    return released;
+  }
+
   async competeForWorkingMemory(input: {
     workerId: WorkerId;
     candidateIds?: MentalObjectId[];

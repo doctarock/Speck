@@ -209,6 +209,8 @@ export class SpeckRuntime {
 
   admitToWorkingMemory(...args: Parameters<WorkspaceService["admitToWorkingMemory"]>) { return this.workspace.admitToWorkingMemory(...args); }
 
+  releaseWorkingMemory(...args: Parameters<WorkspaceService["releaseWorkingMemory"]>) { return this.workspace.releaseWorkingMemory(...args); }
+
   createCommitment(...args: Parameters<BeliefService["createCommitment"]>) { return this.belief.createCommitment(...args); }
 
   updateCommitment(...args: Parameters<BeliefService["updateCommitment"]>) { return this.belief.updateCommitment(...args); }

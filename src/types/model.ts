@@ -121,7 +121,7 @@ export type CognitiveEventType =
   | "mental-object.created" | "observation" | "tool-result" | "memory-activation"
   | "impasse-detected" | "model-completed" | "procedure-result"
   | "belief-changed" | "commitment-changed"
-  | "working-memory.admitted" | "memory.recorded" | "commitment.created"
+  | "working-memory.admitted" | "working-memory.released" | "memory.recorded" | "commitment.created"
   | "world-state.changed" | "evidence.recorded" | "evidence.withdrawn" | "hypothesis.proposed" | "hypothesis.restated"
   | "worker.cycle-completed" | "memory.referenced" | "association.reinforced"
   | "working-memory.competed" | "model.assigned"

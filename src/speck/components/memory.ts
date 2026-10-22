@@ -59,7 +59,7 @@ interface MemoryState {
   local: string[];
 }
 
-interface TurnRecord {
+export interface TurnRecord {
   candidates: string[];
   grounded: string[];
   validated: string[];
@@ -144,33 +144,7 @@ async function remember(runtime: SpeckRuntime, context: TurnContext): Promise<vo
   const record: TurnRecord = { candidates: [], grounded: [], validated: [], retention: null, stored: [], recalled: [] };
   context.scratch.set("memory.record", record);
   const workerId = await sessionWorker(runtime, context, state);
-  const statements = declarativeSentences(context.message);
-  if (!statements) return;
-  const worker = runtime.processorForRole("worker") ?? context.readerProcessorId;
-  try {
-    const extraction = await context.registry.infer({
-      processorId: context.readerProcessorId, contract: extractionContract,
-      prompt: `List the lasting facts the user states about themselves or their situation. Do not decide whether or where to store them.\nUSER STATEMENT:\n${statements}`
-    });
-    record.candidates = [...new Set((Array.isArray(extraction.structured?.facts) ? extraction.structured!.facts as unknown[] : [])
-      .filter((fact): fact is string => typeof fact === "string").map((fact) => fact.trim()).filter(Boolean))].slice(0, 8);
-    if (!record.candidates.length) return;
-    record.grounded = (await runtime.groundFacts({ workerId, facts: record.candidates, statement: statements, actor })).filter((d) => d.grounded).map((d) => d.fact);
-    if (!record.grounded.length) return;
-    const validation = await context.registry.infer({
-      processorId: worker, contract: validationContract,
-      prompt: `Check each candidate against the user statement.\nUSER STATEMENT:\n${statements}\n\nCANDIDATES:\n${record.grounded.map((fact, index) => `${index + 1}. ${fact}`).join("\n")}`
-    });
-    const accepted = acceptedFacts(validation.structured?.facts, record.grounded.length);
-    record.validated = (await runtime.groundFacts({ workerId, facts: accepted, statement: statements, actor })).filter((d) => d.grounded).map((d) => d.fact);
-    if (!record.validated.length) return;
-    const retention = await context.registry.infer({ processorId: worker, contract: retentionContract, prompt: `Read the user statement.\nUSER STATEMENT:\n${context.message}` });
-    const claimed = String(retention.structured?.retention ?? "not mentioned") as Retention;
-    const quote = String(retention.structured?.quote ?? "");
-    record.retention = RETENTION.includes(claimed) && claimed !== "not mentioned" && quotedIn(quote, context.message) ? claimed : "not mentioned";
-  } catch {
-    return; // a failed reading keeps nothing; it never fails the turn
-  }
+  if (!await readDisclosures(runtime, context, workerId, record)) return;
   if (record.retention === "do not keep") return;
   if (record.retention === "only for this task") {
     for (const fact of record.validated) if (!state.local.some((kept) => key(kept) === key(fact))) state.local.push(fact);
@@ -185,6 +159,42 @@ async function remember(runtime: SpeckRuntime, context: TurnContext): Promise<vo
     });
     record.stored.push(fact);
   }
+}
+
+// The facts a message discloses, read, grounded in the user's words, checked,
+// and with the retention the user asked for (filled into `record`). False
+// when there are none to keep or the reading failed; it never fails the turn.
+// `workerId` is the worker whose statements ground the facts. Shared by the
+// memory component and the mind.
+export async function readDisclosures(runtime: SpeckRuntime, context: TurnContext, workerId: WorkerId, record: TurnRecord): Promise<boolean> {
+  const statements = declarativeSentences(context.message);
+  if (!statements) return false;
+  const worker = runtime.processorForRole("worker") ?? context.readerProcessorId;
+  try {
+    const extraction = await context.registry.infer({
+      processorId: context.readerProcessorId, contract: extractionContract,
+      prompt: `List the lasting facts the user states about themselves or their situation. Do not decide whether or where to store them.\nUSER STATEMENT:\n${statements}`
+    });
+    record.candidates = [...new Set((Array.isArray(extraction.structured?.facts) ? extraction.structured!.facts as unknown[] : [])
+      .filter((fact): fact is string => typeof fact === "string").map((fact) => fact.trim()).filter(Boolean))].slice(0, 8);
+    if (!record.candidates.length) return false;
+    record.grounded = (await runtime.groundFacts({ workerId, facts: record.candidates, statement: statements, actor })).filter((d) => d.grounded).map((d) => d.fact);
+    if (!record.grounded.length) return false;
+    const validation = await context.registry.infer({
+      processorId: worker, contract: validationContract,
+      prompt: `Check each candidate against the user statement.\nUSER STATEMENT:\n${statements}\n\nCANDIDATES:\n${record.grounded.map((fact, index) => `${index + 1}. ${fact}`).join("\n")}`
+    });
+    const accepted = acceptedFacts(validation.structured?.facts, record.grounded.length);
+    record.validated = (await runtime.groundFacts({ workerId, facts: accepted, statement: statements, actor })).filter((d) => d.grounded).map((d) => d.fact);
+    if (!record.validated.length) return false;
+    const retention = await context.registry.infer({ processorId: worker, contract: retentionContract, prompt: `Read the user statement.\nUSER STATEMENT:\n${context.message}` });
+    const claimed = String(retention.structured?.retention ?? "not mentioned") as Retention;
+    const quote = String(retention.structured?.quote ?? "");
+    record.retention = RETENTION.includes(claimed) && claimed !== "not mentioned" && quotedIn(quote, context.message) ? claimed : "not mentioned";
+  } catch {
+    return false; // a failed reading keeps nothing; it never fails the turn
+  }
+  return true;
 }
 
 // The order facts were told in: when they were stored, then their place in
